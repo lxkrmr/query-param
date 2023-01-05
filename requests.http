@@ -1,0 +1,5 @@
+### hello world
+GET http://localhost:3000
+
+### hello <name>
+GET http://localhost:3000?name=foo
