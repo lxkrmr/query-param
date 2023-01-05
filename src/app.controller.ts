@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { NameQueryDto } from './dtos/name-query.dto';
 
@@ -7,7 +7,15 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  helloWorld(@Query() nameParam: NameQueryDto): string {
+  helloWorld(
+    @Query(
+      new ValidationPipe({
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    )
+    nameParam: NameQueryDto,
+  ): string {
     return this.appService.greetings(nameParam.name);
   }
 }
