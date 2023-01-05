@@ -15,10 +15,19 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('should forbid missing name query param', () => {
     return request(app.getHttpServer())
       .get('/')
-      .expect(200)
-      .expect('Hello World!');
+      .expect(
+        400,
+        '{"statusCode":400,"message":["name should not be empty","name must be a string"],"error":"Bad Request"}',
+      );
+  });
+
+  it('this is a test', () => {
+    return request(app.getHttpServer())
+      .get('/')
+      .query({ name: '<name>' })
+      .expect(200, 'Hello <name>!');
   });
 });
